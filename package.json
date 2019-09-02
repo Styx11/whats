@@ -1,0 +1,24 @@
+{
+  "name": "whats",
+  "version": "0.0.1",
+  "description": "a terminal translate tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Styx11/whats.git"
+  },
+  "keywords": [
+    "translate",
+    "terminal",
+    "node"
+  ],
+  "author": "styx11 (https://github.com/Styx11)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Styx11/whats/issues"
+  },
+  "homepage": "https://github.com/Styx11/whats#readme"
+}
