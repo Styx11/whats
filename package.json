@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/Styx11/whats#readme",
   "dependencies": {
+    "chalk": "^2.4.2",
+    "is-chinese": "^1.2.9",
     "js-sha256": "^0.9.0",
     "xml2js": "^0.4.21"
   }
