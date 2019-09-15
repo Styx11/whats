@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "a terminal translate tool",
   "main": "index.js",
+  "bin": {
+    "whats": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,7 +16,11 @@
   "keywords": [
     "translate",
     "terminal",
-    "node"
+    "node",
+    "chinese",
+    "command line",
+    "cli",
+    "translation"
   ],
   "author": "styx11 (https://github.com/Styx11)",
   "license": "MIT",
@@ -23,6 +30,7 @@
   "homepage": "https://github.com/Styx11/whats#readme",
   "dependencies": {
     "chalk": "^2.4.2",
+    "commander": "^3.0.1",
     "is-chinese": "^1.2.9",
     "js-sha256": "^0.9.0",
     "xml2js": "^0.4.21"
