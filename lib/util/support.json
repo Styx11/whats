@@ -1,0 +1,61 @@
+{
+  "normal": {
+    "zh-CHS": {
+      "en": true,
+      "ja": true,
+      "ko": true,
+      "fr": true,
+      "es": true,
+      "pt": true,
+      "it": true,
+      "ru": true,
+      "vi": true,
+      "de": true,
+      "ar": true,
+      "id": true
+    },
+    "en": {
+      "zh-CHS": true,
+      "ja": true
+    },
+    "ja": {
+      "zh-CHS": true,
+      "en": true
+    }
+  },
+  "minor": {
+    "ko": {
+      "zh-CHS": true
+    },
+    "fr": {
+      "zh-CHS": true
+    },
+    "es": {
+      "zh-CHS": true
+    },
+    "pt": {
+      "zh-CHS": true
+    },
+    "it": {
+      "zh-CHS": true
+    },
+    "ru": {
+      "zh-CHS": true
+    },
+    "vi": {
+      "zh-CHS": true
+    },
+    "de": {
+      "zh-CHS": true
+    },
+    "ar": {
+      "zh-CHS": true
+    },
+    "id": {
+      "zh-CHS": true
+    },
+    "auto": {
+      "zh-CHS": true
+    }
+  }
+}
