@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const ora = require('ora');
 const iciba = require('./lib/iciba');
 const commander = require('commander');
 const program = new commander.Command();
@@ -7,6 +8,7 @@ const { checkLang } = require('./lib/util/checkLang');
 
 const pkg = require('./package.json');
 const version = pkg.version;
+const spinner = ora();
 
 program.version(version);
 
@@ -33,16 +35,17 @@ if (!process.argv.slice(2).length) {
 program.parse(process.argv);
 
 if (!checkVers()) {
-  return;
+  return spinner.warn('您的 Node.js 版本过低');
 }
 
-let to = program.to;
-let from = program.from;
-const word = process.argv[2].toLocaleLowerCase();
-const useIciba = checkLang(word, from, to);
-if (useIciba) {
-  iciba(word);
-} else {
-  from = from ? from : 'auto';
-  to = to ? to : 'auto';
+try {
+  let to = program.to;
+  let from = program.from;
+  const word = process.argv[2].toLocaleLowerCase();
+  const useIciba = checkLang(word, from, to);
+  if (useIciba) {
+    iciba(word);
+  }
+} catch (e) {
+  spinner.fail(e.message || '出现了一个错误...');
 }
