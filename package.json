@@ -1,6 +1,6 @@
 {
-  "name": "whats",
-  "version": "0.0.1",
+  "name": "what-is-x",
+  "version": "0.0.2",
   "description": "a terminal translate tool",
   "main": "index.js",
   "bin": {
