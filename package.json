@@ -1,7 +1,7 @@
 {
   "name": "what-is-x",
-  "version": "0.1.2",
-  "description": "a terminal translate tool",
+  "version": "0.1.3",
+  "description": "a terminal translation tool",
   "main": "index.js",
   "bin": {
     "whats": "./bin/whats.js"
@@ -33,7 +33,7 @@
   "homepage": "https://github.com/Styx11/whats#readme",
   "dependencies": {
     "chalk": "^2.4.2",
-    "commander": "^3.0.1",
+    "commander": "^3.0.2",
     "is-chinese": "^1.2.9",
     "js-sha256": "^0.9.0",
     "ora": "^3.4.0",
