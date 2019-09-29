@@ -9,7 +9,7 @@
 ![](https://img.shields.io/librariesio/github/styx11/whats)
 ![](https://img.shields.io/github/license/styx11/whats)
 
-![](https://s2.ax1x.com/2019/09/24/uESGB6.png)
+![](https://s2.ax1x.com/2019/09/29/uGmJ10.png)
 
 </div>
 
