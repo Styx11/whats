@@ -3,7 +3,7 @@ const whats = require('../index');
 const commander = require('commander');
 const program = new commander.Command();
 
-const { normal } = require('../lib/util/config');
+const { config } = require('../lib/util/config');
 const pkg = require('../package.json');
 const version = pkg.version;
 
@@ -34,6 +34,6 @@ if (!process.argv.slice(2).length) {
 
 program.parse(process.argv);
 
-normal.normalize = !!program.normal;
+config.normalize = !!program.normal;
 
 whats(program.from, program.to);
