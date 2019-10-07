@@ -1,61 +1,77 @@
 {
   "normal": {
     "zh-CHS": {
-      "en": true,
-      "ja": true,
-      "ko": true,
-      "fr": true,
-      "es": true,
-      "pt": true,
-      "it": true,
-      "ru": true,
-      "vi": true,
-      "de": true,
-      "ar": true,
-      "id": true
+      "en": "英",
+      "ja": "日",
+      "ko": "韩",
+      "fr": "法",
+      "es": "西班牙",
+      "pt": "葡萄牙",
+      "it": "意大利",
+      "ru": "俄",
+      "vi": "越南",
+      "de": "德",
+      "ar": "阿拉伯",
+      "id": "印尼"
     },
     "en": {
-      "zh-CHS": true,
-      "ja": true
+      "zh-CHS": "中",
+      "ja": "日"
     },
     "ja": {
-      "zh-CHS": true,
-      "en": true
+      "zh-CHS": "中",
+      "en": "英"
     }
   },
   "minor": {
     "ko": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "fr": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "es": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "pt": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "it": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "ru": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "vi": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "de": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "ar": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "id": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     },
     "auto": {
-      "zh-CHS": true
+      "zh-CHS": "中"
     }
+  },
+  "all": {
+    "zh-CHS": "中",
+    "en": "英",
+    "ja": "日",
+    "ko": "韩",
+    "fr": "法",
+    "es": "西班牙",
+    "pt": "葡萄牙",
+    "it": "意大利",
+    "ru": "俄",
+    "vi": "越南",
+    "de": "德",
+    "ar": "阿拉伯",
+    "id": "印尼",
+    "auto": "自动识别"
   }
 }
