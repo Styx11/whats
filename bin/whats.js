@@ -13,17 +13,16 @@ program
   .name('whats')
   .usage('<word> [options]')
   .option('-n, --normal', 'normalize text color of your terminal')
-  // .option('-s, --sent <sentence>', 'translate a sentence enclosed in single quotation')
-  // .option('-f, --from <source>', 'the source language to translate')
-  // .option('-t, --to <target>', 'the target language');
+  .option('-f, --from <source>', 'the source language to translate')
+  .option('-t, --to <target>', 'the target language');
 
 program.on('--help', () => {
   console.log('')
   console.log('Examples:');
   console.log('  $ whats love');
   console.log('  $ whats 爱');
-  // console.log('  $ whats l’amour --from fr --to zh-CHS');
-  // console.log(`  $ whats -s '爱一个人的感觉'`);
+  console.log('  $ whats bonjour -f fr');
+  console.log('  $$ whats こんにちは -f ja -t en');
   console.log('');
 })
 
