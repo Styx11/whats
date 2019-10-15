@@ -4,11 +4,12 @@ const youdao = require('./lib/youdao');
 const { config } = require('./lib/util/config');
 const { checkVers } = require('./lib/util/checkVers');
 const { checkLang } = require('./lib/util/checkLang');
+const { formatQuery } = require('./lib/util/formatQuery');
 
 module.exports = (from, to) => {
   let useIciba;
   const spinner = ora();
-  const word = process.argv[2].toLocaleLowerCase();
+  const word = formatQuery();
 
   if (!checkVers()) {
     return spinner.warn('您的 Node.js 版本过低');
