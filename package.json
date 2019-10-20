@@ -1,6 +1,6 @@
 {
   "name": "what-is-x",
-  "version": "0.2.5",
+  "version": "0.3.5",
   "description": "a terminal translation tool",
   "main": "index.js",
   "bin": {
@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/Styx11/whats#readme",
   "dependencies": {
+    "blueimp-md5": "^2.12.0",
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
     "is-chinese": "^1.2.9",
