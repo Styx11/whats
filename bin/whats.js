@@ -11,7 +11,7 @@ program.version(version, '-v, --vers', 'output the current version');
 
 program
   .name('whats')
-  .usage('<word> [options]')
+  .usage('<query> [options]')
   .option('-n, --normal', 'normalize text color of your terminal')
   .option('-f, --from <source>', 'the source language to translate')
   .option('-t, --to <target>', 'the target language');
@@ -22,7 +22,9 @@ program.on('--help', () => {
   console.log('  $ whats love');
   console.log('  $ whats 爱');
   console.log('  $ whats bonjour -f fr');
-  console.log('  $$ whats こんにちは -f ja -t en');
+  console.log('  $ whats こんにちは -f ja -t en');
+  console.log('  $ whats I love you very much');
+  console.log('  $ whats only you can control your future -f en -t ja');
   console.log('');
 })
 
