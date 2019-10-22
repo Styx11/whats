@@ -1,8 +1,11 @@
 #!/usr/bin/env node
+const ora = require('ora');
 const whats = require('../index');
 const commander = require('commander');
-const program = new commander.Command();
+const { checkVers } = require('../lib/util/checkVers');
 
+let spinner;
+const program = new commander.Command();
 const { config } = require('../lib/util/config');
 const pkg = require('../package.json');
 const version = pkg.version;
@@ -14,10 +17,11 @@ program
   .usage('<query> [options]')
   .option('-n, --normal', 'normalize text color of your terminal')
   .option('-f, --from <source>', 'the source language to translate')
-  .option('-t, --to <target>', 'the target language');
+  .option('-t, --to <target>', 'the target language')
+  .option('-s, --say', 'use default system voice and speak');
 
 program.on('--help', () => {
-  console.log('')
+  console.log('');
   console.log('Examples:');
   console.log('  $ whats love');
   console.log('  $ whats 爱');
@@ -32,9 +36,14 @@ if (!process.argv.slice(2).length) {
   console.log('');
   return program.help();
 }
+if (!checkVers()) {
+  spinner = ora();
+  return spinner.warn('您的 Node.js 版本过低');
+}
 
 program.parse(process.argv);
 
+config.say = !!program.say;
 config.normalize = !!program.normal;
 
 whats(program.from, program.to);
