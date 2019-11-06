@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const ora = require('ora');
 const whats = require('../index');
+const record = require('../lib/db');
 const commander = require('commander');
 const { checkVers } = require('../lib/util/checkVers');
 
@@ -18,7 +19,8 @@ program
   .option('-n, --normal', 'normalize text color of your terminal')
   .option('-f, --from <source>', 'the source language to translate')
   .option('-t, --to <target>', 'the target language')
-  .option('-s, --say', 'use default system voice and speak');
+  .option('-s, --say', 'use default system voice and speak')
+  .option('-r, --record', 'show the query record');
 
 program.on('--help', () => {
   console.log('');
@@ -46,4 +48,6 @@ program.parse(process.argv);
 config.say = !!program.say;
 config.normalize = !!program.normal;
 
-whats(program.from, program.to);
+program.record
+  ? record()
+  : whats(program.from, program.to);
