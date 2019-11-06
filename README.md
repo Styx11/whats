@@ -23,6 +23,9 @@
 * 文本关键字高亮
 * 中英文语音播放
 * 终端自适应的输出
+* 支持查询记录
+
+![](https://s2.ax1x.com/2019/11/05/M9YcMn.png)
 
 ## 💾Install
 
@@ -36,11 +39,13 @@ npm install -g what-is-x
 Usage: whats <query> [options]
 
 Options:
-  -v, --vers    output the current version
-  -h, --help    output usage information
+  -v, --vers           output the current version
+  -h, --help           output usage information
   -f, --from <source>  the source language to translate
   -t, --to <target>    the target language
-  -n, --normal  normalize text color in your terminal
+  -n, --normal         normalize text color in your terminal
+  -s, --say use        default system voice and speak
+  -r, --record         show the query record
 
 Examples:
   $ whats love
