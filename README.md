@@ -112,5 +112,12 @@ Examples:
 5. 在支持语言范围内，若无 `-t` 或 `--to` 命令标识，目标语言默认为**中文**
 6. 使用语音播放 `-s` 或 `--say` 时，可能会存在系统层次的问题，具体参考👉[say.js](https://github.com/Marak/say.js#feature-matrix)
 
+### 🚨关于v0.4.6改动
+由于 MacOS 自 10.11 系统开始使用了 Rootless 机制，系统默认将会锁定 /system、/bin、/usr 这三个目录，
+因此全局环境下无法获取数据库读写权限，需要在终端输入如下命令：
+```
+sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+```
+
 ## 📄License
 MIT.
