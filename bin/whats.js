@@ -3,7 +3,11 @@ const ora = require('ora');
 const whats = require('../index');
 const record = require('../lib/db');
 const commander = require('commander');
+const sqlite = require('sqlite3').verbose();
 const { checkVers } = require('../lib/util/checkVers');
+const {
+  tableCreated
+} = require('../lib/db/handlers');
 
 let spinner;
 const program = new commander.Command();
@@ -48,6 +52,18 @@ program.parse(process.argv);
 config.say = !!program.say;
 config.normalize = !!program.normal;
 
-program.record
-  ? record()
-  : whats(program.from, program.to);
+// For now, it's easily to fail to find the database file by spreading the database creation, 
+// so we'll have to create it in the first place
+const db = new sqlite.cached.Database('.whats.sqlite');
+tableCreated('.whats.sqlite').then(created => {
+  const dbOpts = { db, created };
+  config.dbOpts = dbOpts;
+  program.record
+    ? record()
+    : whats(program.from, program.to);
+})
+.catch(e => {
+  spinner = ora();
+  spinner.fail(e.message);
+  db.close();
+});
