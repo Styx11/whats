@@ -25,13 +25,14 @@
 * 终端自适应的输出
 * 支持查询记录
 
-![](https://s2.ax1x.com/2019/11/05/M9YcMn.png)
+![](https://s2.ax1x.com/2019/11/09/MnFMh4.png)
 
 ## 💾Install
 
 ```
 npm install -g what-is-x
 ```
+🚨[注意](https://github.com/Styx11/whats#关于v046及以上版本说明)
 
 ## 💡Usage
 
@@ -39,13 +40,13 @@ npm install -g what-is-x
 Usage: whats <query> [options]
 
 Options:
-  -v, --vers           output the current version
-  -h, --help           output usage information
-  -f, --from <source>  the source language to translate
-  -t, --to <target>    the target language
-  -n, --normal         normalize text color in your terminal
-  -s, --say use        default system voice and speak
-  -r, --record         show the query record
+  -v, --vers             output the current version
+  -h, --help             output usage information
+  -f, --from   <source>  the source language to translate
+  -t, --to     <target>  the target language
+  -n, --normal           normalize text color in your terminal
+  -s, --say              use default system voice and speak
+  -r, --record           show the query record
 
 Examples:
   $ whats love
@@ -56,7 +57,6 @@ Examples:
   $ whats only you can control your future -f en -t ja
 ```
 
-![](https://s2.ax1x.com/2019/10/20/KMGzuQ.png)
 
 ### 🇨🇳支持语言
 
@@ -112,7 +112,7 @@ Examples:
 5. 在支持语言范围内，若无 `-t` 或 `--to` 命令标识，目标语言默认为**中文**
 6. 使用语音播放 `-s` 或 `--say` 时，可能会存在系统层次的问题，具体参考👉[say.js](https://github.com/Marak/say.js#feature-matrix)
 
-### 🚨关于v0.4.6改动
+### 🚨关于 v0.4.6 及以上版本说明
 由于 MacOS 自 10.11 系统开始使用了 Rootless 机制，系统默认将会锁定 /system、/bin、/usr 这三个目录，
 因此全局环境下无法获取数据库读写权限，需要在终端输入如下命令：
 ```
