@@ -1,6 +1,6 @@
 {
   "name": "what-is-x",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "a terminal translation tool",
   "main": "index.js",
   "bin": {
@@ -40,7 +40,7 @@
     "ora": "^3.4.0",
     "say": "^0.16.0",
     "sqlite3": "^4.1.0",
-    "tty-table": "^2.8.0",
+    "tty-table": "^2.8.2",
     "xml2js": "^0.4.22"
   }
 }
