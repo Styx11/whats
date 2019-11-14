@@ -32,7 +32,7 @@
 ```
 npm install -g what-is-x
 ```
-🚨[注意](https://github.com/Styx11/whats#关于v046及以上版本说明)
+🚨[注意](https://github.com/Styx11/whats#关于-v046-及以上版本说明)
 
 ## 💡Usage
 
