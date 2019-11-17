@@ -24,7 +24,7 @@ program
   .option('-f, --from <source>', 'the source language to translate')
   .option('-t, --to <target>', 'the target language')
   .option('-s, --say', 'use default system voice and speak')
-  .option('-r, --record', 'show the query record');
+  .option('-r, --record [limit]', 'show the query record (default: 6)');
 
 program.on('--help', () => {
   console.log('');
@@ -51,6 +51,10 @@ program.parse(process.argv);
 
 config.say = !!program.say;
 config.normalize = !!program.normal;
+
+if (program.record && typeof program.record === 'string') {
+  config.recordConfig.limit = Number(program.record) || 6;
+}
 
 // For now, it's easily to fail to find the database file by spreading the database creation, 
 // so we'll have to create it in the first place
