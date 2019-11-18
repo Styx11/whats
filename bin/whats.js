@@ -1,15 +1,14 @@
 #!/usr/bin/env node
-const ora = require('ora');
 const whats = require('../index');
 const record = require('../lib/db');
 const commander = require('commander');
+const logSymbols = require('log-symbols');
 const sqlite = require('sqlite3').verbose();
 const { checkVers } = require('../lib/util/checkVers');
 const {
   tableCreated
 } = require('../lib/db/handlers');
 
-let spinner;
 const program = new commander.Command();
 const { config } = require('../lib/util/config');
 const pkg = require('../package.json');
@@ -24,7 +23,7 @@ program
   .option('-f, --from <source>', 'the source language to translate')
   .option('-t, --to <target>', 'the target language')
   .option('-s, --say', 'use default system voice and speak')
-  .option('-r, --record [limit]', 'show the query record (default: 6)');
+  .option('-r, --record [limit | clear]', 'show the query record (limit records default: 6 or clear records)');
 
 program.on('--help', () => {
   console.log('');
@@ -43,8 +42,7 @@ if (!process.argv.slice(2).length) {
   return program.help();
 }
 if (!checkVers()) {
-  spinner = ora();
-  return spinner.warn('您的 Node.js 版本过低');
+  return console.log(logSymbols.warning + ' 您的 Node.js 版本过低');
 }
 
 program.parse(process.argv);
@@ -67,7 +65,6 @@ tableCreated('.whats.sqlite').then(created => {
     : whats(program.from, program.to);
 })
 .catch(e => {
-  spinner = ora();
-  spinner.fail(e.message);
+  console.log(logSymbols.error + ' ' + e.message);
   db.close();
 });
