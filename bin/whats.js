@@ -6,8 +6,10 @@ const logSymbols = require('log-symbols');
 const sqlite = require('sqlite3').verbose();
 const { checkVers } = require('../lib/util/checkVers');
 const {
+  dropDB,
   tableCreated
 } = require('../lib/db/handlers');
+const dropCLI = require('../lib/db/dropCLI');
 
 const program = new commander.Command();
 const { config } = require('../lib/util/config');
@@ -23,17 +25,17 @@ program
   .option('-f, --from <source>', 'the source language to translate')
   .option('-t, --to <target>', 'the target language')
   .option('-s, --say', 'use default system voice and speak')
-  .option('-r, --record [limit | clear]', 'show the query record (limit records default: 6 or clear records)');
+  .option('-r, --record [limit: number | clear]', 'show the query record');
 
 program.on('--help', () => {
   console.log('');
   console.log('Examples:');
   console.log('  $ whats love');
-  console.log('  $ whats 爱');
   console.log('  $ whats bonjour -f fr');
   console.log('  $ whats こんにちは -f ja -t en');
   console.log('  $ whats I love you very much');
-  console.log('  $ whats only you can control your future -f en -t ja');
+  console.log('  $ whats -r clear');
+  console.log('  $ whats -r 10');
   console.log('');
 })
 
@@ -50,8 +52,19 @@ program.parse(process.argv);
 config.say = !!program.say;
 config.normalize = !!program.normal;
 
-if (program.record && typeof program.record === 'string') {
-  config.recordConfig.limit = Number(program.record) || 6;
+// deal with record commander
+let limit;
+const rawRecord = program.record;
+const recordConfig = config.recordConfig;
+const invaild = logSymbols.error + ' ' + `无效参数 (${rawRecord})，使用 -h 查看帮助`;
+if (rawRecord && typeof rawRecord === 'string') {
+  if (rawRecord === 'clear') {
+    return dropCLI(() => dropDB('.whats.sqlite'));// use dropDB as closure to avoid path issue
+  }
+  if (!(limit = Number(rawRecord))) {
+    return console.log(invaild);
+  }
+  recordConfig.limit = limit;
 }
 
 // For now, it's easily to fail to find the database file by spreading the database creation, 
