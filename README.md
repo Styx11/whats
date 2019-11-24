@@ -32,7 +32,7 @@
 ```
 npm install -g what-is-x
 ```
-🚨[注意](https://github.com/Styx11/whats#关于-v046-及以上版本说明)
+🚨[注意](#关于-v046-及以上版本说明)
 
 ## 💡Usage
 
@@ -40,21 +40,21 @@ npm install -g what-is-x
 Usage: whats <query> [options]
 
 Options:
-  -v, --vers             output the current version
-  -h, --help             output usage information
-  -f, --from   <source>  the source language to translate
-  -t, --to     <target>  the target language
-  -n, --normal           normalize text color in your terminal
-  -s, --say              use default system voice and speak
-  -r, --record           show the query record
+  -v, --vers                      output the current version
+  -h, --help                      output usage information
+  -f, --from        <source>      the source language to translate
+  -t, --to          <target>      the target language
+  -n, --normal                    normalize text color in your terminal
+  -s, --say                       use default system voice and speak
+  -r, --record   [limit | clear]  show the query record (limit records ouputs default: 6 or clear records)
 
 Examples:
   $ whats love
-  $ whats 爱
   $ whats bonjour -f fr
   $ whats こんにちは -f ja -t en
   $ whats I love you very much
-  $ whats only you can control your future -f en -t ja
+  $ whats -r clear // 清除查询记录
+  $ whats -r 10    // 限制查询结果数量
 ```
 
 
