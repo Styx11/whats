@@ -16,6 +16,11 @@ const { config } = require('../lib/util/config');
 const pkg = require('../package.json');
 const version = pkg.version;
 
+const os = require('os');
+const path = require('path');
+const dbName = '.whats.sqlite';
+const dbPath = path.join(os.homedir(), dbName);
+
 program.version(version, '-v, --vers', 'output the current version');
 
 program
@@ -59,7 +64,8 @@ const recordConfig = config.recordConfig;
 const invaild = logSymbols.error + ' ' + `无效参数 (${rawRecord})，使用 -h 查看帮助`;
 if (rawRecord && typeof rawRecord === 'string') {
   if (rawRecord === 'clear') {
-    return dropCLI(() => dropDB('.whats.sqlite'));// use dropDB as closure to avoid path issue
+    // use dropDB as closure to avoid path issue
+    return dropCLI(() => dropDB(dbPath));
   }
   if (!(limit = Number(rawRecord))) {
     return console.log(invaild);
@@ -67,10 +73,10 @@ if (rawRecord && typeof rawRecord === 'string') {
   recordConfig.limit = limit;
 }
 
-// For now, it's easily to fail to find the database file by spreading the database creation, 
+// For now, it's easily to fail to find the database file by spreading the database creation,
 // so we'll have to create it in the first place
-const db = new sqlite.cached.Database('.whats.sqlite');
-tableCreated('.whats.sqlite').then(created => {
+const db = new sqlite.cached.Database(dbPath);
+tableCreated(dbPath).then(created => {
   const dbOpts = { db, created };
   config.dbOpts = dbOpts;
   program.record
