@@ -119,5 +119,9 @@ Examples:
 sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
 ```
 
+## 📝Todos
+* 将默认翻译部分迁移至 baidu，即增加中文多音字翻译，英文各时态翻译
+* 将句子翻译全权交给 youdao，中文字符数 ≥4 即视为句子
+
 ## 📄License
 MIT.
