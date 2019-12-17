@@ -9,18 +9,22 @@ const { formatQuery } = require('./lib/util/formatQuery');
 module.exports = async (from, to) => {
   let spinner;
   let useIciba;
-  const word = formatQuery();
+  const {
+    query,
+    isSent,
+    isChinese,
+  } = formatQuery();
+  config.isChinese = isChinese;
 
   try {
-
-    useIciba = checkLang(word, from, to);
-    config.useIciba = !!useIciba;
+    useIciba = checkLang(from, to) && !isSent;
+    config.useIciba = useIciba;
     if (useIciba) {
-      await iciba(word);
+      await iciba(query);
     } else {
-      await youdao(word, from, to);
+      await youdao(query, from, to);
     }
-    if (config.say) say.speak(word);
+    if (config.say) say.speak(query);
 
   } catch (e) {
     spinner = ora();
