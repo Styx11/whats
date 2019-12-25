@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+const chalk = require('chalk');
 const whats = require('../index');
 const record = require('../lib/db');
 const commander = require('commander');
 const logSymbols = require('log-symbols');
 const sqlite = require('sqlite3').verbose();
+const { config } = require('../lib/util/config');
 const { checkVers } = require('../lib/util/checkVers');
 const {
   dropDB,
@@ -12,7 +14,6 @@ const {
 const dropCLI = require('../lib/db/dropCLI');
 
 const program = new commander.Command();
-const { config } = require('../lib/util/config');
 const pkg = require('../package.json');
 const version = pkg.version;
 
@@ -42,7 +43,7 @@ program.on('--help', () => {
   console.log('  $ whats -r clear');
   console.log('  $ whats -r 10');
   console.log('');
-})
+});
 
 if (!process.argv.slice(2).length) {
   console.log('');
@@ -55,7 +56,12 @@ if (!checkVers()) {
 program.parse(process.argv);
 
 config.say = !!program.say;
-config.normalize = !!program.normal;
+
+// use global chalk instead of config.normalize
+// because we not need getChalk() every time
+config.chalk = program.normal
+  ? str => str
+  : (str, color) => chalk[color](str);
 
 // deal with record commander
 let limit;
