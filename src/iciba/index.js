@@ -1,6 +1,6 @@
-const { request } = require('../shared/request');
-const { config } = require('../util/config');
-const getTime = require('../util/getTime');
+const { request } = require('../../lib/shared/request');
+const { config } = require('../../lib/util/config');
+const getTime = require('../../lib/util/getTime');
 const ora = require('ora');
 
 // formatter
@@ -26,7 +26,7 @@ const {
 const {
   insertDB,
   createDB,
-} = require('../db/handlers');
+} = require('../../lib/db/handlers');
 
 module.exports = async query => {
   const isChinese = config.isChinese;

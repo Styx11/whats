@@ -1,9 +1,9 @@
-const log = require('../shared/log');
-const { config } = require('../util/config');
+const log = require('../../lib/shared/log');
+const { config } = require('../../lib/util/config');
 const {
   sliceOrigStr,
   sliceTransStr,
-} = require('../shared/slice');
+} = require('../../lib/shared/slice');
 
 exports.print = (data) => {
   const chalk = config.chalk;

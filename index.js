@@ -1,7 +1,7 @@
 const ora = require('ora');
 const say = require('say');
-const iciba = require('./lib/iciba');
-const youdao = require('./lib/youdao');
+const iciba = require('./src/iciba');
+const youdao = require('./src/youdao');
 const { config } = require('./lib/util/config');
 const { checkLang } = require('./lib/util/checkLang');
 const { formatQuery } = require('./lib/util/formatQuery');

@@ -1,9 +1,9 @@
 // the print module of baidu now only print part of the trans result
-const log = require('../shared/log');
-const { config } = require('../util/config');
+const log = require('../../lib/shared/log');
+const { config } = require('../../lib/util/config');
 const {
   sliceOrigStr
-} = require('../shared/slice');
+} = require('../../lib/shared/slice');
 
 // default printer of en to zh
 // tense1: mean1; mean2

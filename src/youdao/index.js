@@ -1,7 +1,7 @@
-const { request } = require('../shared/request');
-const support = require('../util/support.json');
-const { config } = require('../util/config');
-const getTime = require('../util/getTime');
+const { request } = require('../../lib/shared/request');
+const support = require('../../lib/util/support.json');
+const { config } = require('../../lib/util/config');
+const getTime = require('../../lib/util/getTime');
 const { getSource } = require('./source');
 const { format } = require('./format');
 const { print } = require('./print');
@@ -9,7 +9,7 @@ const ora = require('ora');
 const {
   createDB,
   insertDB,
-} = require('../db/handlers');
+} = require('../../lib/db/handlers');
 
 module.exports = async (word, from, to) => {
   const all = support.all;
