@@ -1,22 +1,22 @@
-const ora = require('ora');
 const say = require('say');
 const iciba = require('./src/iciba');
 const youdao = require('./src/youdao');
+const logSymbols = require('log-symbols');
 const { config } = require('./lib/util/config');
 const { checkLang } = require('./lib/util/checkLang');
 const { formatQuery } = require('./lib/util/formatQuery');
 
 module.exports = async (from, to) => {
-  let spinner;
   let useIciba;
-  const {
-    query,
-    isSent,
-    isChinese,
-  } = formatQuery();
-  config.isChinese = isChinese;
 
   try {
+    const {
+      query,
+      isSent,
+      isChinese,
+    } = formatQuery();
+    config.isChinese = isChinese;
+
     useIciba = checkLang(from, to) && !isSent;
     config.useIciba = useIciba;
     if (useIciba) {
@@ -27,7 +27,7 @@ module.exports = async (from, to) => {
     if (config.say) say.speak(query);
 
   } catch (e) {
-    spinner = ora();
-    spinner.fail(e.message || '出现了一个错误...');
+    const msg = e.message || '出现了一个错误...';
+    console.error(logSymbols.error + ' ' + msg);
   }
 };
