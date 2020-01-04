@@ -119,7 +119,15 @@ exports.chinesePrint = (icibaData, baiduData) => {
     key,
     sents
   } = icibaData;
-  const notFound = baiduData.symbols.length === 0 && baiduData.word_means.length === 0;
+
+  const {
+    symbols,
+    word_means
+  } = baiduData;
+
+  // the last condition will occur in some special/freaking cases
+  const notFound = (symbols.length === 0 && word_means.length === 0)
+    || (symbols.length !== 0 && symbols[0].parts[0] && symbols[0].parts[0].means[0] === '');
 
   if (notFound) {
     baiduReservedPrint(baiduData);
