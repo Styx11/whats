@@ -7,7 +7,6 @@
 
 ![](https://img.shields.io/node/v/what-is-x)
 ![](https://img.shields.io/npm/v/what-is-x?color=blue)
-![](https://img.shields.io/npm/dm/what-is-x)
 ![](https://img.shields.io/librariesio/github/styx11/whats)
 ![](https://img.shields.io/github/license/styx11/whats)
 
@@ -22,7 +21,7 @@
 * 支持语言范围内的长句翻译
 * 文本关键字高亮
 * 中英文语音播放
-* 终端自适应的输出
+* 终端**自适应**的输出
 * 支持查询记录
 
 ![](https://s2.ax1x.com/2019/11/09/MnFMh4.png)
@@ -99,18 +98,24 @@ Examples:
 
 1. 你的 Node 版本需 ≥ 7.6.0
 
-2. 测试版本目前支持基本词语的互译、小语种中文翻译、长句子翻译（中文字符数 > 4 将被视为句子）
+2. 单次最大查询**字符数**为 200
 
-3. 输出结果的文本颜色可能会因你的终端主题而有较大差异，
+3. 本翻译工具拥有终端自适应的输出，即超过终端宽度的输出会被切分并排版，
+
+    例句的输出不会溢出终端窗口。一般情况下想要看到**全部的例句**建议的终端窗口大小最少为 `73 * 25`
+
+3. 测试版本目前支持基本词语的互译、小语种中文翻译、长句子翻译（中文字符数 > 4 将被视为句子）
+
+4. 输出结果的文本颜色可能会因你的终端主题而有较大差异，
   想要消除颜色带来的影响（**无颜色**输出）可以使用 `-n` 或 `--normal` 命令。
   例如：
-  ```
-  $ whats up --normal
-  ```
+    ```
+    $ whats up --normal
+    ```
 
-4. 除**中英文**互译外所有语言的翻译**必须**使用 `-f` 或 `--from` 标识源语言
-5. 在支持语言范围内，若无 `-t` 或 `--to` 命令标识，目标语言默认为**中文**
-6. 使用语音播放 `-s` 或 `--say` 时，可能会存在系统层次的问题，具体参考👉[say.js](https://github.com/Marak/say.js#feature-matrix)
+5. 除**中英文**互译外所有语言的翻译**必须**使用 `-f` 或 `--from` 标识源语言
+6. 在支持语言范围内，若无 `-t` 或 `--to` 命令标识，目标语言默认为**中文**
+7. 使用语音播放 `-s` 或 `--say` 时，可能会存在系统层次的问题，具体参考👉[say.js](https://github.com/Marak/say.js#feature-matrix)
 
 ### 🚨关于 v0.4.6 及以上版本说明
 由于 MacOS 自 10.11 系统开始使用了 Rootless 机制，系统默认将会锁定 /system、/bin、/usr 这三个目录，
