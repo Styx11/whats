@@ -82,14 +82,22 @@ if (rawRecord && typeof rawRecord === 'string') {
 // For now, it's easily to fail to find the database file by spreading the database creation,
 // so we'll have to create it in the first place
 const db = new sqlite.cached.Database(dbPath);
-tableCreated(dbPath).then(created => {
-  const dbOpts = { db, created };
-  config.dbOpts = dbOpts;
-  program.record
-    ? record()
-    : whats(program.from, program.to);
+
+db.on('open', () => {
+  tableCreated(dbPath).then(created => {
+    const dbOpts = { db, created };
+    config.dbOpts = dbOpts;
+    program.record
+      ? record()
+      : whats(program.from, program.to);
+  })
+  .catch(e => {
+    console.log(logSymbols.error + ' ' + e.message);
+    db.close();
+  });
 })
-.catch(e => {
-  console.log(logSymbols.error + ' ' + e.message);
+
+db.on('error', (e) => {
+  console.log(logSymbols.error + ' ' + e);
   db.close();
-});
+})
