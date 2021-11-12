@@ -2,14 +2,19 @@
   "name": "what-is-x",
   "version": "0.6.12",
   "description": "a terminal translation tool",
-  "main": "index.js",
+  "main": "./bin/whats.js",
+  "files": [
+    "dist/**/*"
+  ],
   "bin": {
-    "whats": "./bin/whats.js"
+    "whats": "./dist/bin/whats.js"
   },
   "engines": {
     "node": ">=7.6.0"
   },
   "scripts": {
+    "compile": "tsc",
+    "prepublishOnly": "yarn compile",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -43,5 +48,11 @@
     "sqlite3": "^4.1.0",
     "tty-table": "^2.8.2",
     "xml2js": "^0.4.22"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/node": "^16.11.6",
+    "@types/sqlite3": "^3.1.7",
+    "typescript": "^4.4.4"
   }
 }
