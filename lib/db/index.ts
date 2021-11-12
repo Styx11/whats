@@ -1,14 +1,15 @@
 import logAsTable from './logAsTable';
 import ora from 'ora';
 import { wordBasedSearch } from './handlers';
-import { config } from '../util/config';
+import { config } from '../ConfigManager';
 
-export default async () => {
+export default async () =>
+{
 	const { db, created } = config.dbOpts;
 	const spinner = ora('请稍后...').start();
 
-	try {
-
+	try
+	{
 		if (!created) return spinner.warn('暂无查询结果');
 
 		console.time('Time');
@@ -21,7 +22,9 @@ export default async () => {
 		console.timeEnd('Time');
 		db.close();
 
-	} catch (e) {
+	}
+	catch (e)
+	{
 		spinner.fail('出错了！');
 		db && db.close();
 	}

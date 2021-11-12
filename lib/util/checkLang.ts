@@ -1,4 +1,4 @@
-import { config } from './config'
+import ConfigStoreManager, { ConfigItem } from '../ConfigManager'
 import langSup from './support.json'
 
 // the youdao api is NOT opening for free
@@ -6,10 +6,11 @@ import langSup from './support.json'
 // when we're translating between en and zh
 
 // returns a boolean representing whether to use the default API
-export const checkLang = (from: string, to: string) => {
+export const checkLang = (from: string, to: string) =>
+{
 	if (from && to && (from === to)) throw new Error('请输入有效的值');
 
-	const isChinese = config.isChinese;
+	const isChinese = ConfigStoreManager.getInstance().getConfig<ConfigItem.IS_CHINESE>(ConfigItem.IS_CHINESE);
 
 	// youdao support language
 	const { normal, minor } = langSup;
@@ -25,11 +26,14 @@ export const checkLang = (from: string, to: string) => {
 	const normalFrom = from && ((normal as any)[from]);
 	const minorFrom = from && (minor as any)[from];
 
-	if (normalFrom && (!to || normalFrom[to])) {
+	if (normalFrom && (!to || normalFrom[to]))
+	{
 		return false;
-	} else if (minorFrom && (!to || minorFrom[to])) {
+	} else if (minorFrom && (!to || minorFrom[to]))
+	{
 		return false;
-	} else {
+	} else
+	{
 		throw new Error('源语言或目标语言不受支持');
 	}
 };

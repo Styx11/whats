@@ -1,10 +1,14 @@
 // log module makes sure that every sentence indents two spaces
 // when log sents in iciba, it won't overflow
-import { config } from '../util/config'
+import ConfigStoreManager, { ConfigItem } from '../ConfigManager'
 
-export default (str: string) => {
+export default (str: string) =>
+{
+	const curRows = ConfigStoreManager.getInstance().getConfig<ConfigItem.AVAIL_ROWS>(ConfigItem.AVAIL_ROWS);
+
 	console.group();
 	console.log(str);
 	console.groupEnd();
-	config.availRows--;
+
+	ConfigStoreManager.getInstance().setConfig<ConfigItem.AVAIL_ROWS>(ConfigItem.AVAIL_ROWS, curRows - 1);
 };

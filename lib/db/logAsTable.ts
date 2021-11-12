@@ -1,24 +1,27 @@
 import Table from 'tty-table';
-import { config } from '../util/config'
+import ConfigStoreManager, { ConfigItem } from '../ConfigManager'
 
-const { recordConfig } = config
 
 // this module logs search result as a formatted table
-export default (rawTuples: any[]) => {
+export default (rawTuples: any[]) =>
+{
 	let rows = [];
-	const limit = recordConfig.limit;
+	const limit = ConfigStoreManager.getInstance().getConfig<ConfigItem.RECORD_LIMIT>(ConfigItem.RECORD_LIMIT);
 	const tuples = rawTuples.slice(0, limit);
 	const keys = Object.keys(tuples[0]);
-	const header = keys.map(k => {
+	const header = keys.map(k =>
+	{
 		return {
 			value: k
 		};
 	});
 
-	for (let t of tuples) {
+	for (let t of tuples)
+	{
 		const tuple = [];
 		if (rows.length === limit) break;
-		for (let k of keys) {
+		for (let k of keys)
+		{
 			tuple.push(t[k]);
 		}
 		rows.push(tuple);

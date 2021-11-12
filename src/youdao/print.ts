@@ -1,9 +1,10 @@
 import log from '../../lib/shared/log'
-import { config } from '../../lib/util/config'
+import ConfigStoreManager, { ConfigItem } from '../../lib/ConfigManager'
 import { sliceOrigStr, sliceTransStr } from '../../lib/shared/slice';
 
-export const print = (data: any) => {
-	const chalk = config.chalk;
+export const print = (data: any) =>
+{
+	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
 	let {
 		to,
 		from,
@@ -25,7 +26,8 @@ export const print = (data: any) => {
 
 	from = chalk(from, 'red');
 	sliceOrigStr(orig, slicedOrig);
-	slicedOrig.forEach(o => {
+	slicedOrig.forEach(o =>
+	{
 		o = chalk(o, 'cyan');
 		firstLine
 			? log(`${from}  ${o}`)
@@ -41,7 +43,8 @@ export const print = (data: any) => {
 
 	to = chalk(to, 'red');
 	sliceTransStr(trans, slicedTrans);
-	slicedTrans.forEach(t => {
+	slicedTrans.forEach(t =>
+	{
 		t = chalk(t, 'cyan');
 		firstLine
 			? log(`${to}  ${t}`)

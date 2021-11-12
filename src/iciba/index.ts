@@ -1,5 +1,5 @@
 import { request } from '../../lib/shared/request';
-import { config } from '../../lib/util/config';
+import ConfigStoreManager, { config, ConfigItem } from '../../lib/ConfigManager';
 import getTime from '../../lib/util/getTime';
 import ora from 'ora';
 
@@ -14,14 +14,16 @@ import { getBaiduSource } from '../baidu/source';
 
 import { insertDB, createDB } from '../../lib/db/handlers';
 
-export default async (query: string) => {
-	const isChinese = config.isChinese;
+export default async (query: string) =>
+{
+	const isChinese = ConfigStoreManager.getInstance().getConfig<ConfigItem.IS_CHINESE>(ConfigItem.IS_CHINESE);;
 	const { db, created } = config.dbOpts;
 	const spinner = ora('搜索中...').start();
 	const defaultSource = getDefaultSource(query);
 	const chineseSource = getChineseSource(query);
 	const baiduSource = getBaiduSource(query, isChinese);
-	const createWrapper = () => {
+	const createWrapper = () =>
+	{
 		return created
 			? Promise.resolve()
 			: createDB(db);// returns promise
@@ -36,7 +38,8 @@ export default async (query: string) => {
 
 	// iciba's default api doesn't have the translation for chinese to english
 	// so we make another requset 'reqChinese' to get it.
-	try {
+	try
+	{
 		const reqDefault = request(defaultSource);
 		const reqBaidu = request(baiduSource);
 		const reqChinese = isChinese
@@ -70,7 +73,8 @@ export default async (query: string) => {
 		spinner.stop();
 		print(icibaData, baiduData);
 
-	} catch (e: any) {
+	} catch (e: any)
+	{
 		const msg = e.message || '或许是网络错误...';
 		spinner.fail(msg);
 		db && db.close();

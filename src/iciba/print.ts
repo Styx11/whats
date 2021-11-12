@@ -1,4 +1,4 @@
-import { config } from '../../lib/util/config';
+import ConfigStoreManager, { ConfigItem } from '../../lib/ConfigManager';
 import log from '../../lib/shared/log';
 import { sliceOrigStr, sliceTransStr } from '../../lib/shared/slice';
 
@@ -11,19 +11,23 @@ const {
 // 高亮目标词
 // since chalk will change string's length inside,
 // so we call it everytime instead of initing at first
-const markKeyWord = (orig: string, key: string) => {
-	const chalk = config.chalk;
+const markKeyWord = (orig: string, key: string) =>
+{
+	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
 	const pattern = new RegExp(`(${key})`, 'ig');
 	return orig.replace(pattern, chalk('$1', 'yellow'));
 };
 
-const logSents = (key: string, sents: any[]) => {
-	const chalk = config.chalk;
+const logSents = (key: string, sents: any[]) =>
+{
+	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
+	const availRows = ConfigStoreManager.getInstance().getConfig<ConfigItem.AVAIL_ROWS>(ConfigItem.AVAIL_ROWS);
 
 	// 例句
 	let index = 1;
 	sents && log('');
-	sents && sents.forEach(({ orig, trans }) => {
+	sents && sents.forEach(({ orig, trans }) =>
+	{
 		let idx = chalk(`${index}.`, 'dim');
 		let firstLine = true;
 		const slicedOrig: string[] = [];
@@ -35,24 +39,28 @@ const logSents = (key: string, sents: any[]) => {
 		// we will pass the sent that cost too many rows which will be overflowed
 		// if there are enough rows to log next sent, we'll still log it, like 1, 2, 5(index is 3)
 		const sumRows = slicedOrig.length + slicedTrans.length;
-		if (sumRows > config.availRows) {
+		if (sumRows > availRows)
+		{
 			return;
 		}
 
 		index++;
-		slicedOrig.forEach(s => {
+		slicedOrig.forEach(s =>
+		{
 			firstLine
 				? log(`${idx} ${markKeyWord(s, key)}`)
 				: log(`   ${markKeyWord(s, key)}`);
 			firstLine = false;
 		});
-		slicedTrans.forEach(t => {
+		slicedTrans.forEach(t =>
+		{
 			log(`   ${chalk(t, 'cyan')}`);
 		});
 	});
 };
 
-export const defaultPrint = (icibaData: any, baiduData: any) => {
+export const defaultPrint = (icibaData: any, baiduData: any) =>
+{
 	const {
 		ps,
 		key,
@@ -62,10 +70,11 @@ export const defaultPrint = (icibaData: any, baiduData: any) => {
 	const notFound = !sents && !explains;
 
 	// apply text normal config
-	const chalk = config.chalk;
+	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
 
 	// 读音 / 音标
-	const fmtPs = (p: string, cty?: string) => {
+	const fmtPs = (p: string, cty?: string) =>
+	{
 		const psWord = `${cty || ''}[ ${p} ]`;
 		return chalk(psWord, 'redBright');
 	};
@@ -87,11 +96,13 @@ export const defaultPrint = (icibaData: any, baiduData: any) => {
 
 	// 词义
 	explains && log('');
-	explains && explains.forEach((exp: string) => {
+	explains && explains.forEach((exp: string) =>
+	{
 		let firstLine = true;
 		const slicedExp: string[] = [];
 		sliceTransStr(exp, slicedExp);
-		slicedExp.forEach(e => {
+		slicedExp.forEach(e =>
+		{
 			firstLine
 				? log(`${chalk('-', 'dim')} ${chalk(e, 'greenBright')}`)
 				: log(`  ${chalk(e, 'greenBright')}`);
@@ -99,7 +110,8 @@ export const defaultPrint = (icibaData: any, baiduData: any) => {
 		});
 	});
 
-	if (notFound) {
+	if (notFound)
+	{
 		baiduReservedPrint(baiduData);
 	}
 
@@ -112,7 +124,8 @@ export const defaultPrint = (icibaData: any, baiduData: any) => {
 	log('');
 };
 
-export const chinesePrint = (icibaData: any, baiduData: any) => {
+export const chinesePrint = (icibaData: any, baiduData: any) =>
+{
 	const {
 		key,
 		sents
@@ -127,9 +140,11 @@ export const chinesePrint = (icibaData: any, baiduData: any) => {
 	const notFound = (symbols.length === 0 && word_means.length === 0)
 		|| (symbols.length !== 0 && symbols[0].parts[0] && symbols[0].parts[0].means[0] === '');
 
-	if (notFound) {
+	if (notFound)
+	{
 		baiduReservedPrint(baiduData);
-	} else {
+	} else
+	{
 		baiduChinesePrint(baiduData);
 	}
 
