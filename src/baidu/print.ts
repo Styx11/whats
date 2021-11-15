@@ -9,7 +9,7 @@ import { sliceOrigStr } from '../../lib/shared/slice';
 export const defaultPrint = (data: any) =>
 {
 	const { exchanges } = data;
-	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
+	const chalk = ConfigStoreManager.getInstance().getConfig(ConfigItem.CHALK);
 	const excExist = exchanges && exchanges.some((e: { exchange: string | any[]; }) => e.exchange.length > 0);
 
 	const exc1 = exchanges.slice(0, 3);
@@ -46,7 +46,7 @@ export const chinesePrint = (data: any) =>
 		symbols,
 		word_means
 	} = data;
-	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
+	const chalk = ConfigStoreManager.getInstance().getConfig(ConfigItem.CHALK);
 
 	const hostWords = chalk('~  fanyi.baidu.com', 'dim');
 	const logParts = (parts: any) =>
@@ -122,7 +122,7 @@ export const reservedPrint = (data: any) =>
 		src,
 		dst
 	} = data;
-	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
+	const chalk = ConfigStoreManager.getInstance().getConfig(ConfigItem.CHALK);
 	const hostWords = chalk('~  fanyi.baidu.com', 'dim');
 
 	// dst is the last resource

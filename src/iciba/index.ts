@@ -1,5 +1,5 @@
 import { request } from '../../lib/shared/request';
-import ConfigStoreManager, { config, ConfigItem } from '../../lib/ConfigManager';
+import ConfigStoreManager, { ConfigItem } from '../../lib/ConfigManager';
 import getTime from '../../lib/util/getTime';
 import ora from 'ora';
 
@@ -12,22 +12,17 @@ import { defaultPrint, chinesePrint } from './print';
 import { getDefaultSource, getChineseSource } from './source';
 import { getBaiduSource } from '../baidu/source';
 
-import { insertDB, createDB } from '../../lib/db/handlers';
+import DatabaseManager from '../../lib/db/DatabaseManager';
 
 export default async (query: string) =>
 {
-	const isChinese = ConfigStoreManager.getInstance().getConfig<ConfigItem.IS_CHINESE>(ConfigItem.IS_CHINESE);;
-	const { db, created } = config.dbOpts;
+	const db = DatabaseManager.getInstance().getDBInstance()
+	const isChinese = ConfigStoreManager.getInstance().getConfig(ConfigItem.IS_CHINESE);
 	const spinner = ora('搜索中...').start();
 	const defaultSource = getDefaultSource(query);
 	const chineseSource = getChineseSource(query);
 	const baiduSource = getBaiduSource(query, isChinese);
-	const createWrapper = () =>
-	{
-		return created
-			? Promise.resolve()
-			: createDB(db);// returns promise
-	};
+
 	const baiduFormat = isChinese
 		? chineseFormat
 		: defaultFormat;
@@ -50,7 +45,7 @@ export default async (query: string) =>
 			reqDefault,
 			reqChinese,
 			reqBaidu,
-			createWrapper()
+			DatabaseManager.getInstance().createDB(),
 		];
 		const getResult = Promise.all(promises);
 		const [rtDefault, rtChinese, rtBaidu] = await getResult;
@@ -60,7 +55,7 @@ export default async (query: string) =>
 		let semi;
 		const k = icibaData.key;
 		const e = icibaData.explains;
-		await insertDB(db, {
+		await DatabaseManager.getInstance().insertDB({
 			$word: (k && k[0]),
 			$source: (isChinese ? '中' : '英'),
 			$target: (isChinese ? '英' : '中'),
@@ -73,7 +68,8 @@ export default async (query: string) =>
 		spinner.stop();
 		print(icibaData, baiduData);
 
-	} catch (e: any)
+	}
+	catch (e: any)
 	{
 		const msg = e.message || '或许是网络错误...';
 		spinner.fail(msg);

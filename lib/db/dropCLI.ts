@@ -1,8 +1,11 @@
-import readline from 'readline'
+import readline from 'readline';
 import logSymbols from 'log-symbols';
 
+import DatabaseManager from './DatabaseManager';
+
 // this module is used to be a CLI when dropping the db
-export default (dropDB: any) => {
+export default () =>
+{
 	const cancel = /n(o)?$/i;
 	const confirm = /y(es)?$/i;
 	const failed = logSymbols.error + ' ' + '清除失败！';
@@ -13,12 +16,12 @@ export default (dropDB: any) => {
 		output: process.stdout,
 		prompt: question
 	});
-	const invalid = (input: string) => {
-		return logSymbols.error + ' ' + `无效指令 (${input})，请重新输入`
-	};
+	const invalid = (input: string) => logSymbols.error + ' ' + `无效指令 (${input})，请重新输入`
 
-	rl.on('line', (input: string) => {
-		switch (true) {
+	rl.on('line', (input: string) =>
+	{
+		switch (true)
+		{
 			case !input:
 				rl.prompt();
 				break;
@@ -26,13 +29,10 @@ export default (dropDB: any) => {
 				rl.close();
 				break;
 			case confirm.test(input):
-				dropDB().then(() => {
-					console.log(succeed);
-					rl.close();
-				}).catch(() => {
-					console.log(failed);
-					rl.close();
-				});
+				DatabaseManager.getInstance().dropDB()
+					.then(() => console.log(succeed))
+					.catch(() => console.log(failed))
+					.finally(rl.close);
 				break;
 			default:
 				console.log(invalid(input));
@@ -40,7 +40,8 @@ export default (dropDB: any) => {
 				break;
 		}
 	});
-	rl.on('SIGINT', () => {
+	rl.on('SIGINT', () =>
+	{
 		rl.close();
 		console.log('');
 	});

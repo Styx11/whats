@@ -18,9 +18,9 @@ export default async (from: string, to: string) =>
 
 		const useIciba = checkLang(from, to) && !isSent;
 
-		const useSay = ConfigStoreManager.getInstance().getConfig<ConfigItem.USE_SAY>(ConfigItem.USE_SAY)
-		ConfigStoreManager.getInstance().setConfig<ConfigItem.IS_CHINESE>(ConfigItem.IS_CHINESE, !!isChinese)
-		ConfigStoreManager.getInstance().setConfig<ConfigItem.USE_ICIBA>(ConfigItem.USE_ICIBA, useIciba)
+		const useSay = ConfigStoreManager.getInstance().getConfig(ConfigItem.USE_SAY)
+		ConfigStoreManager.getInstance().setConfig(ConfigItem.IS_CHINESE, !!isChinese)
+		ConfigStoreManager.getInstance().setConfig(ConfigItem.USE_ICIBA, useIciba)
 
 		if (useIciba)
 		{

@@ -1,11 +1,32 @@
-import logAsTable from './logAsTable';
 import ora from 'ora';
-import { wordBasedSearch } from './handlers';
-import { config } from '../ConfigManager';
+import Table from 'tty-table';
 
-export default async () =>
+import DatabaseManager, { SearchStruct } from './DatabaseManager';
+import ConfigStoreManager, { ConfigItem } from '../ConfigManager';
+
+
+/**
+ * 打印查询结果表格
+ *
+ * @param {SearchStruct[]} rawTuples - 查询结果对象数组
+ */
+const logAsTable = (rawTuples: SearchStruct[]) =>
 {
-	const { db, created } = config.dbOpts;
+	const limit = ConfigStoreManager.getInstance().getConfig(ConfigItem.RECORD_LIMIT);
+
+	const tuples = rawTuples.slice(0, limit);
+	const header = Object.keys(tuples[0]).map(k => ({ value: k }));
+
+	const table = Table(header, tuples, { truncate: '..' });
+
+	console.log(table.render());
+};
+
+// 查询数据库记录
+const searchDBReacord = async () =>
+{
+	const db = DatabaseManager.getInstance().getDBInstance()
+	const created = ConfigStoreManager.getInstance().getConfig(ConfigItem.DB_CREATED)
 	const spinner = ora('请稍后...').start();
 
 	try
@@ -14,19 +35,23 @@ export default async () =>
 
 		console.time('Time');
 
-		const tuples = await wordBasedSearch(db);
+		const tuples = await DatabaseManager.getInstance().searchDB();
+
 		spinner.succeed('查询成功！');
 		logAsTable(tuples);
-
 		console.log('');
-		console.timeEnd('Time');
-		db.close();
 
+		console.timeEnd('Time');
 	}
 	catch (e)
 	{
 		spinner.fail('出错了！');
+	}
+	finally
+	{
 		db && db.close();
 	}
 
 };
+
+export default searchDBReacord

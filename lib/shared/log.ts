@@ -4,11 +4,11 @@ import ConfigStoreManager, { ConfigItem } from '../ConfigManager'
 
 export default (str: string) =>
 {
-	const curRows = ConfigStoreManager.getInstance().getConfig<ConfigItem.AVAIL_ROWS>(ConfigItem.AVAIL_ROWS);
+	const curRows = ConfigStoreManager.getInstance().getConfig(ConfigItem.AVAIL_ROWS);
 
 	console.group();
 	console.log(str);
 	console.groupEnd();
 
-	ConfigStoreManager.getInstance().setConfig<ConfigItem.AVAIL_ROWS>(ConfigItem.AVAIL_ROWS, curRows - 1);
+	ConfigStoreManager.getInstance().setConfig(ConfigItem.AVAIL_ROWS, curRows - 1);
 };

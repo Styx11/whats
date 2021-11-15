@@ -13,15 +13,15 @@ const {
 // so we call it everytime instead of initing at first
 const markKeyWord = (orig: string, key: string) =>
 {
-	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
+	const chalk = ConfigStoreManager.getInstance().getConfig(ConfigItem.CHALK);
 	const pattern = new RegExp(`(${key})`, 'ig');
 	return orig.replace(pattern, chalk('$1', 'yellow'));
 };
 
 const logSents = (key: string, sents: any[]) =>
 {
-	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
-	const availRows = ConfigStoreManager.getInstance().getConfig<ConfigItem.AVAIL_ROWS>(ConfigItem.AVAIL_ROWS);
+	const chalk = ConfigStoreManager.getInstance().getConfig(ConfigItem.CHALK);
+	const availRows = ConfigStoreManager.getInstance().getConfig(ConfigItem.AVAIL_ROWS);
 
 	// 例句
 	let index = 1;
@@ -70,7 +70,7 @@ export const defaultPrint = (icibaData: any, baiduData: any) =>
 	const notFound = !sents && !explains;
 
 	// apply text normal config
-	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
+	const chalk = ConfigStoreManager.getInstance().getConfig(ConfigItem.CHALK);
 
 	// 读音 / 音标
 	const fmtPs = (p: string, cty?: string) =>

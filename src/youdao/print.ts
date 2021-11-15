@@ -4,7 +4,7 @@ import { sliceOrigStr, sliceTransStr } from '../../lib/shared/slice';
 
 export const print = (data: any) =>
 {
-	const chalk = ConfigStoreManager.getInstance().getConfig<ConfigItem.CHALK>(ConfigItem.CHALK);
+	const chalk = ConfigStoreManager.getInstance().getConfig(ConfigItem.CHALK);
 	let {
 		to,
 		from,

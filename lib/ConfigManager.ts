@@ -1,9 +1,3 @@
-// normalize is used to normalize the test color
-// useIciba is used to find out wheather require 'http' or 'https'
-
-export const config = {
-	dbOpts: Object.create(null),// include db instance, created -- is db been created
-};
 
 export enum ConfigItem
 {

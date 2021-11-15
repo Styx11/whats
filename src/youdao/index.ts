@@ -1,25 +1,19 @@
 import { request } from '../../lib/shared/request';
 import support from '../../lib/util/support.json';
-import ConfigStoreManager, { config, ConfigItem } from '../../lib/ConfigManager';
+import ConfigStoreManager, { ConfigItem } from '../../lib/ConfigManager';
 import getTime from '../../lib/util/getTime';
 import { getSource } from './source';
 import { format } from './format';
 import { print } from './print';
 import ora from 'ora';
-import { createDB, insertDB } from '../../lib/db/handlers';
+import DatabaseManager from '../../lib/db/DatabaseManager';
 
 export default async (word: string, from: string, to: string) =>
 {
 	const all = support.all;
-	const isChinese = ConfigStoreManager.getInstance().getConfig<ConfigItem.IS_CHINESE>(ConfigItem.IS_CHINESE);;
-	const { db, created } = config.dbOpts;
+	const isChinese = ConfigStoreManager.getInstance().getConfig(ConfigItem.IS_CHINESE);
+	const db = DatabaseManager.getInstance().getDBInstance();
 	const spinner = ora('搜索中...').start();
-	const createWrapper = () =>
-	{
-		return created
-			? Promise.resolve()
-			: createDB(db);
-	}
 
 	// default to be zh
 	let toLang = to ? (all as any)[to] : '中';
@@ -32,7 +26,8 @@ export default async (word: string, from: string, to: string) =>
 		{
 			fromLang = '中';
 			toLang = '英';
-		} else
+		}
+		else
 		{
 			fromLang = '英';
 			toLang = '中';
@@ -42,13 +37,13 @@ export default async (word: string, from: string, to: string) =>
 	try
 	{
 		const source = getSource(word, from, to);
-		const getResult = Promise.all([request(source), createWrapper()]);
+		const getResult = Promise.all([request(source), DatabaseManager.getInstance().createDB()]);
 		const [result] = await getResult;
 		const formattedResult = format(result, fromLang, toLang);
 
 		const o = formattedResult.orig;
 		const t = formattedResult.trans;
-		await insertDB(db, {
+		await DatabaseManager.getInstance().insertDB({
 			$word: (o && o),
 			$source: fromLang,
 			$target: toLang,
@@ -60,7 +55,8 @@ export default async (word: string, from: string, to: string) =>
 		db.close();
 		spinner.stop();
 		print(formattedResult);
-	} catch (e: any)
+	}
+	catch (e: any)
 	{
 		db && db.close();
 		spinner.fail(e.message || '或许是网络错误...');

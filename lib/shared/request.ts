@@ -2,7 +2,7 @@ import ConfigStoreManager, { ConfigItem } from '../ConfigManager'
 
 export const request = async (source: string) =>
 {
-	const useIciba = ConfigStoreManager.getInstance().getConfig<ConfigItem.USE_ICIBA>(ConfigItem.USE_ICIBA)
+	const useIciba = ConfigStoreManager.getInstance().getConfig(ConfigItem.USE_ICIBA)
 	const http = useIciba
 		? await import('http')
 		: await import('https');

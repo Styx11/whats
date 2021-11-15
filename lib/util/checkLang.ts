@@ -10,7 +10,7 @@ export const checkLang = (from: string, to: string) =>
 {
 	if (from && to && (from === to)) throw new Error('请输入有效的值');
 
-	const isChinese = ConfigStoreManager.getInstance().getConfig<ConfigItem.IS_CHINESE>(ConfigItem.IS_CHINESE);
+	const isChinese = ConfigStoreManager.getInstance().getConfig(ConfigItem.IS_CHINESE);
 
 	// youdao support language
 	const { normal, minor } = langSup;
