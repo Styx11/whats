@@ -22,10 +22,9 @@ export const print = (data: any) =>
 
 	// 原文
 	let firstLine = true;
-	const slicedOrig: string[] = [];
+	const slicedOrig: string[] = sliceOrigStr(orig);
 
 	from = chalk(from, 'red');
-	sliceOrigStr(orig, slicedOrig);
 	slicedOrig.forEach(o =>
 	{
 		o = chalk(o, 'cyan');
@@ -39,10 +38,9 @@ export const print = (data: any) =>
 
 	// 翻译结果
 	firstLine = true;
-	const slicedTrans: string[] = [];
+	const slicedTrans: string[] = sliceTransStr(trans);
 
 	to = chalk(to, 'red');
-	sliceTransStr(trans, slicedTrans);
 	slicedTrans.forEach(t =>
 	{
 		t = chalk(t, 'cyan');

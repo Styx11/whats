@@ -30,10 +30,8 @@ const logSents = (key: string, sents: any[]) =>
 	{
 		let idx = chalk(`${index}.`, 'dim');
 		let firstLine = true;
-		const slicedOrig: string[] = [];
-		const slicedTrans: string[] = [];
-		sliceOrigStr(orig, slicedOrig);
-		sliceTransStr(trans, slicedTrans);
+		const slicedOrig: string[] = sliceOrigStr(orig);
+		const slicedTrans: string[] = sliceTransStr(trans);
 
 		// sents logging shouldn't overflow in terminal
 		// we will pass the sent that cost too many rows which will be overflowed
@@ -99,8 +97,7 @@ export const defaultPrint = (icibaData: any, baiduData: any) =>
 	explains && explains.forEach((exp: string) =>
 	{
 		let firstLine = true;
-		const slicedExp: string[] = [];
-		sliceTransStr(exp, slicedExp);
+		const slicedExp: string[] = sliceTransStr(exp);
 		slicedExp.forEach(e =>
 		{
 			firstLine

@@ -9,67 +9,71 @@ import isChinese from 'is-chinese'
 const cols = getColumns();
 
 // check is stdout.columns a valid value
-function getColumns() {
-	if (!process.stdout.isTTY || isNaN(process.stdout.columns)) {
+function getColumns()
+{
+	if (!process.stdout.isTTY || isNaN(process.stdout.columns))
+	{
 		return 100;
 	}
 
 	return process.stdout.columns - 7;
 }
 
-// this func slice a string which has no space and Chinese
+// this func slice a string which has no space or Chinese
 // but it's probably not gonna happend in nature language
-const sliceStrWithoutSpace = (str: string, sliced: string[]): number => {
+const sliceStrWithoutSpace = (str: string, sliced: string[] = []): string[] =>
+{
 	const len = str.length;
 
-	if (len <= cols) return sliced.push(str);
+	if (len <= cols) return [...sliced, str];
 
 	const mainStr = str.slice(0, cols);
 	const subStr = str.slice(cols + 1);
-	sliced.push(mainStr);
 
-	return sliceStrWithoutSpace(subStr, sliced);
+	return sliceStrWithoutSpace(subStr, [...sliced, mainStr]);
 }
 
-// slice the orig str which out of cols in terminal
-const sliceOrigStr = (str: string, sliced: string[]): number => {// sliced is an empty array
-	let lastSpaceOfCol;
+// 切分包含空格的英文句子
+export const sliceOrigStr = (str: string, sliced: string[] = []): string[] =>
+{
 	const len = str.length;
 	const byteLength = Buffer.byteLength(str);
 
-	// check whether minority language
+	// 检查是否是小语种
 	if (len !== byteLength) return sliceTransStr(str, sliced);
-	if (len <= cols) return sliced.push(str);
+	if (len <= cols) return [...sliced, str];
 
-	// return index of space before out of col
-	lastSpaceOfCol = str.lastIndexOf(' ', cols);
+	// 以 col 为分界，找到最后一个空格
+	const lastSpaceOfCol = str.lastIndexOf(' ', cols);
 	if (lastSpaceOfCol === -1) return sliceStrWithoutSpace(str, sliced);
 
 	const mainStr = str.slice(0, lastSpaceOfCol);
 	const subStr = str.slice(lastSpaceOfCol + 1);
-	sliced.push(mainStr);
 
-	// orig may be a very long string
-	// so we call it recursively
-	// tail call
-	return sliceOrigStr(subStr, sliced);
+	// 尾递归
+	return sliceOrigStr(subStr, [...sliced, mainStr]);
 };
 
-// find out whether trans str which include Chinese longer than cols, correctly
-// then returns the roughly slice position of it
-const slicePotOfTrans = (str: string) => {
+// 返回中文句子的大致切分位置
+const findSlicePosOfTrans = (str: string) =>
+{
 	let len = 0;
 	let slicePot = 0;
-	for (let s of str) {
-		if (isChinese(s) || (Buffer.byteLength(s) !== s.length)) {
+	for (let s of str)
+	{
+		if (isChinese(s) || (Buffer.byteLength(s) !== s.length))
+		{
 			len += 2;
-		} else {
+		}
+		else
+		{
 			len += 1;
 		}
 
 		// we just need to know it's longer
 		// so the exact slice point doesn't matter
-		if (len >= cols) {
+		if (len >= cols)
+		{
 			slicePot = len / 2;
 			break;
 		}
@@ -77,21 +81,15 @@ const slicePotOfTrans = (str: string) => {
 	return slicePot;
 };
 
-// slice the trans result which may includes Chinese
-const sliceTransStr = (str: string, sliced: string[]): number => {
-	const slicePot = slicePotOfTrans(str);
+// 切分包含中文的句子
+export const sliceTransStr = (str: string, sliced: string[] = []): string[] =>
+{
+	const slicePot = findSlicePosOfTrans(str);
 
-	if (!slicePot) return sliced.push(str);
+	if (!slicePot) return [...sliced, str];
 
 	const mainStr = str.slice(0, slicePot);
 	const subStr = str.slice(slicePot);
-	sliced.push(mainStr);
 
-	return sliceTransStr(subStr, sliced);
-};
-
-export {
-	sliceOrigStr,
-	sliceTransStr,
-	sliceStrWithoutSpace,
+	return sliceTransStr(subStr, [...sliced, mainStr]);
 };

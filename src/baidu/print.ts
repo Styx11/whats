@@ -56,14 +56,13 @@ export const chinesePrint = (data: any) =>
 		log('');
 		parts.forEach((part: any) =>
 		{
-			const sliced: string[] = [];
 			const pn = part.part_name;
 			const n = pn ? chalk(pn, 'dim') + '  ' : '';
 			const m = part.means.join('; ').trim();
+			const sliced: string[] = sliceOrigStr(m);
 
 			// means maybe too long
 			const offset = !!n ? '    ' : '';
-			sliceOrigStr(m, sliced);
 			sliced.forEach((s, i) =>
 			{
 				i === 0

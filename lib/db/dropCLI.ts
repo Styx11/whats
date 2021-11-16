@@ -32,7 +32,7 @@ export default () =>
 				DatabaseManager.getInstance().dropDB()
 					.then(() => console.log(succeed))
 					.catch(() => console.log(failed))
-					.finally(rl.close);
+					.finally(() => rl.close());
 				break;
 			default:
 				console.log(invalid(input));

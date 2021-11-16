@@ -1,4 +1,6 @@
-export const checkVers = () => {
+// 检查 node 版本
+export const checkVers = () =>
+{
 	const prs_vers = process.version;
 	const vers = prs_vers
 		.replace(/^v/i, '')
