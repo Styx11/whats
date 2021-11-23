@@ -2,7 +2,6 @@
 import chalk from 'chalk'
 import commander from 'commander';
 import logSymbols from 'log-symbols';
-import _sqlite, { Database } from 'sqlite3'
 
 import whats from '../index'
 import searchRecord from '../lib/db';
@@ -81,32 +80,24 @@ import DatabaseManager from '../lib/db/DatabaseManager';
 		ConfigStoreManager.getInstance().setConfig(ConfigItem.RECORD_LIMIT, limit);
 	}
 
-	// 获取数据库实例
-	const db: Database = DatabaseManager.getInstance().getDBInstance()
+	DatabaseManager.getInstance().tableCreated()
+		.then(() =>
+		{
+			options.record
+				? searchRecord()
+				: whats(options.from, options.to);
+		})
+		.catch((e: Error) =>
+		{
+			console.log(logSymbols.error + ' ' + e.message);
+			console.log(logSymbols.error + ' ' + '数据库文件丢失');
+			DatabaseManager.getInstance().closeDB();
+		});
 
-	db.on('open', () =>
-	{
-		DatabaseManager.getInstance().tableCreated()
-			.then((created: boolean) =>
-			{
-				ConfigStoreManager.getInstance().setConfig(ConfigItem.DB_CREATED, created)
-
-				options.record
-					? searchRecord()
-					: whats(options.from, options.to);
-			})
-			.catch((e: Error) =>
-			{
-				console.log(logSymbols.error + ' ' + e.message);
-				console.log(logSymbols.error + ' ' + '数据库文件丢失');
-				db.close();
-			});
-	})
-
-	db.on('error', (e: Error) =>
+	DatabaseManager.getInstance().onDatabaseError((e: Error) =>
 	{
 		console.log(logSymbols.error + ' ' + e);
-		db.close();
-	})
+		DatabaseManager.getInstance().closeDB();
+	});
 
 })()

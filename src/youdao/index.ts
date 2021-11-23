@@ -12,7 +12,6 @@ export default async (word: string, from: string, to: string) =>
 {
 	const all = support.all;
 	const isChinese = ConfigStoreManager.getInstance().getConfig(ConfigItem.IS_CHINESE);
-	const db = DatabaseManager.getInstance().getDBInstance();
 	const spinner = ora('搜索中...').start();
 
 	// default to be zh
@@ -22,16 +21,8 @@ export default async (word: string, from: string, to: string) =>
 	// translating sentence between zh and en
 	if (!from && !to)
 	{
-		if (isChinese)
-		{
-			fromLang = '中';
-			toLang = '英';
-		}
-		else
-		{
-			fromLang = '英';
-			toLang = '中';
-		}
+		fromLang = isChinese ? '中' : '英';
+		toLang = isChinese ? '英' : '中';
 	}
 
 	try
@@ -52,13 +43,13 @@ export default async (word: string, from: string, to: string) =>
 			$host: 'youdao'
 		});
 
-		db.close();
+		DatabaseManager.getInstance().closeDB();
 		spinner.stop();
 		print(formattedResult);
 	}
 	catch (e: any)
 	{
-		db && db.close();
+		DatabaseManager.getInstance().closeDB();
 		spinner.fail(e.message || '或许是网络错误...');
 	}
 }

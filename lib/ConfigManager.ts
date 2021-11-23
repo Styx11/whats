@@ -9,8 +9,6 @@ export enum ConfigItem
 	USE_SAY = 'USE_SAY',
 	// chalk 函数（是否使用了 normalize 命令）
 	CHALK = 'CHALK',
-	// 数据库是否已创建
-	DB_CREATED = 'DB_CREATED',
 	// 查询记录限制条数
 	RECORD_LIMIT = 'RECORD_LIMIT',
 	// 当前终端可用的行数（用于防止 iciba 例句输出时已出终端窗口）
@@ -23,7 +21,6 @@ export interface Config
 	[ConfigItem.USE_ICIBA]: boolean;
 	[ConfigItem.USE_SAY]: boolean;
 	[ConfigItem.CHALK]: ((str: string) => string) | ((str: string, color: string) => string);
-	[ConfigItem.DB_CREATED]: boolean;
 	[ConfigItem.RECORD_LIMIT]: number;
 	[ConfigItem.AVAIL_ROWS]: number;
 }
@@ -36,7 +33,6 @@ class ConfigStoreManager
 		[ConfigItem.USE_ICIBA]: false,
 		[ConfigItem.USE_SAY]: false,
 		[ConfigItem.CHALK]: (str: string) => str,
-		[ConfigItem.DB_CREATED]: false,
 		[ConfigItem.RECORD_LIMIT]: 6,
 		[ConfigItem.AVAIL_ROWS]: process.stdout.rows - 3,
 	}

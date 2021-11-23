@@ -2,7 +2,6 @@ import _sqlite, { Database } from "sqlite3";
 import path from 'path';
 import os from 'os';
 import fs from 'fs';
-import ConfigStoreManager, { ConfigItem } from "../ConfigManager";
 
 const CREATE_SQL = `CREATE TABLE Whats (
 	Word TEXT NOT NULL,
@@ -63,6 +62,9 @@ export default class DatabaseManager
 	// 数据库文件存放位置
 	private _dbPath: string;
 
+	// 是否已建表
+	private _tableCreated: boolean;
+
 	private static _instance: DatabaseManager;
 
 	static getInstance()
@@ -81,12 +83,8 @@ export default class DatabaseManager
 		const sqlite = _sqlite.verbose();
 
 		this._dbPath = dbPath;
+		this._tableCreated = false;
 		this._db = sqlite.cached.Database(dbPath);
-	}
-
-	public getDBInstance = () =>
-	{
-		return this._db;
 	}
 
 	// 判断「表」是否已被 created，
@@ -94,16 +92,24 @@ export default class DatabaseManager
 	{
 		return new Promise<boolean>((res, rej) =>
 		{
-			fs.readFile(this._dbPath, (err, buf) =>
+			this._db.on('open', () =>
 			{
-				if (err)
+				fs.readFile(this._dbPath, (err, buf) =>
 				{
-					return rej(err);
-				}
-				res(buf.length > 0);
-			});
+					if (err)
+					{
+						return rej(err);
+					}
+					res(this._tableCreated = buf.length > 0);
+				});
+			})
 		});
 	};
+
+	public onDatabaseError = (listener: (err: Error) => void): Database =>
+	{
+		return this._db.on('error', listener)
+	}
 
 	// 直接删除 db 文件，因为我们 create 表之前，需要知道「表」是否已存在
 	public dropDB = (): Promise<void> =>
@@ -124,9 +130,7 @@ export default class DatabaseManager
 	// 建「表」
 	public createDB = async (): Promise<string> =>
 	{
-		const created = ConfigStoreManager.getInstance().getConfig(ConfigItem.DB_CREATED)
-
-		if (created) return ''
+		if (this._tableCreated) return ''
 
 		return new Promise((res, rej) =>
 		{
@@ -160,6 +164,8 @@ export default class DatabaseManager
 	// search db based on word
 	public searchDB = (): Promise<SearchStruct[]> =>
 	{
+		if (!this._tableCreated) return Promise.resolve([])
+
 		return new Promise<SearchStruct[]>((res, rej) =>
 		{
 			this._db.all(SEARCH_SQL, (err: Error | null, tuples: SearchStruct[]) =>
@@ -172,4 +178,10 @@ export default class DatabaseManager
 			});
 		});
 	};
+
+	// 关闭数据库
+	public closeDB = () =>
+	{
+		this._db.close()
+	}
 }

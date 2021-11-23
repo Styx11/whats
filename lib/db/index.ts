@@ -25,17 +25,15 @@ const logAsTable = (rawTuples: SearchStruct[]) =>
 // 查询数据库记录
 const searchDBReacord = async () =>
 {
-	const db = DatabaseManager.getInstance().getDBInstance()
-	const created = ConfigStoreManager.getInstance().getConfig(ConfigItem.DB_CREATED)
 	const spinner = ora('请稍后...').start();
 
 	try
 	{
-		if (!created) return spinner.warn('暂无查询结果');
+		const tuples = await DatabaseManager.getInstance().searchDB();
+
+		if (!Array.isArray(tuples) || !tuples.length) return spinner.warn('暂无查询结果');
 
 		console.time('Time');
-
-		const tuples = await DatabaseManager.getInstance().searchDB();
 
 		spinner.succeed('查询成功！');
 		logAsTable(tuples);
@@ -49,7 +47,7 @@ const searchDBReacord = async () =>
 	}
 	finally
 	{
-		db && db.close();
+		DatabaseManager.getInstance().closeDB()
 	}
 
 };

@@ -16,7 +16,6 @@ import DatabaseManager from '../../lib/db/DatabaseManager';
 
 export default async (query: string) =>
 {
-	const db = DatabaseManager.getInstance().getDBInstance()
 	const isChinese = ConfigStoreManager.getInstance().getConfig(ConfigItem.IS_CHINESE);
 	const spinner = ora('搜索中...').start();
 	const defaultSource = getDefaultSource(query);
@@ -64,7 +63,7 @@ export default async (query: string) =>
 			$host: 'iciba'
 		});
 
-		db.close();
+		DatabaseManager.getInstance().closeDB();
 		spinner.stop();
 		print(icibaData, baiduData);
 
@@ -73,6 +72,6 @@ export default async (query: string) =>
 	{
 		const msg = e.message || '或许是网络错误...';
 		spinner.fail(msg);
-		db && db.close();
+		DatabaseManager.getInstance().closeDB();
 	}
 };
