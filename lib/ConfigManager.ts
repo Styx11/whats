@@ -28,14 +28,7 @@ export interface Config
 // 配置 store
 class ConfigStoreManager
 {
-	private store: Config = {
-		[ConfigItem.IS_CHINESE]: false,
-		[ConfigItem.USE_ICIBA]: false,
-		[ConfigItem.USE_SAY]: false,
-		[ConfigItem.CHALK]: (str: string) => str,
-		[ConfigItem.RECORD_LIMIT]: 6,
-		[ConfigItem.AVAIL_ROWS]: process.stdout.rows - 3,
-	}
+	private store: Config;
 
 	private static _instance: ConfigStoreManager
 
@@ -46,6 +39,19 @@ class ConfigStoreManager
 			this._instance = new ConfigStoreManager();
 		}
 		return this._instance;
+	}
+
+	// 受保护的构造函数
+	protected constructor()
+	{
+		this.store = {
+			[ConfigItem.IS_CHINESE]: false,
+			[ConfigItem.USE_ICIBA]: false,
+			[ConfigItem.USE_SAY]: false,
+			[ConfigItem.CHALK]: (str: string) => str,
+			[ConfigItem.RECORD_LIMIT]: 6,
+			[ConfigItem.AVAIL_ROWS]: process.stdout.rows - 3,
+		}
 	}
 
 	public getConfig<T extends ConfigItem>(item: T): Config[T]

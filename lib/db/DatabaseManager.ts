@@ -76,7 +76,7 @@ export default class DatabaseManager
 		return this._instance;
 	}
 
-	constructor()
+	protected constructor()
 	{
 		const dbName = '.whats.sqlite';
 		const dbPath = path.join(os.homedir(), dbName);
